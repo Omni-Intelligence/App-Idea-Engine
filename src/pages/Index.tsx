@@ -17,10 +17,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Lightbulb, FileText, Loader2 } from "lucide-react";
+import { Lightbulb, FileText, Loader2, Sparkles, Clock, Users, PlayCircle, Shield, Star, Check, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { HeroTitle } from "@/components/ui/typography";
+import Hero from "@/components/Hero";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import HeroSection from "@/components/home/HeroSection";
+import IdeaFormSection from "@/components/home/IdeaFormSection";
+import SocialProofSection from "@/components/home/SocialProofSection";
+// Removed unused sections per request
+// import ExplorerSection from "@/components/home/ExplorerSection";
+// import FinalCTASection from "@/components/home/FinalCTASection";
+// import SecuritySection from "@/components/home/SecuritySection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
+import DeliverablesSection from "@/components/home/DeliverablesSection";
+import TemplatesSection from "@/components/home/TemplatesSection";
+import FinalCTASection from "@/components/home/FinalCTASection";
 
 const industries = [
   "Healthcare",
@@ -77,6 +91,19 @@ const Index = () => {
     if (pendingIdea) {
       setIdea(pendingIdea);
 
+    }
+  }, []);
+
+  // Scroll to section if a hash is present (e.g., /#get-started)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const targetId = window.location.hash.replace('#', '');
+      const el = document.getElementById(targetId);
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 0);
+      }
     }
   }, []);
 
@@ -231,231 +258,46 @@ const Index = () => {
     }
   };
 
-  const getTemplatesForSelection = () => {
-    if (!selectedIndustry && !selectedFunction) return null;
-
-    return (
-      <div className="mt-4 space-y-4">
-        <div className="flex justify-between items-center">
-          <h3 className="font-medium text-primary">Generate Custom Ideas</h3>
-          <Button
-            size="sm"
-            onClick={generateAppIdeas}
-            disabled={isGeneratingIdeas || !selectedIndustry || !selectedFunction}
-          >
-            {isGeneratingIdeas ? (
-              <div className="flex items-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Generating...</span>
-              </div>
-            ) : (
-              "Generate Ideas"
-            )}
-          </Button>
-        </div>
-
-        {isGeneratingIdeas ? (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="w-6 h-6 animate-spin text-purple-600" />
-          </div>
-        ) : generatedIdeas.length > 0 ? (
-          <ul className="space-y-2">
-            {generatedIdeas.filter((idea) => idea.length > 0).map((idea, index) => (
-              <li
-                key={index}
-                className="p-3 text-sm bg-primary/10 rounded-lg hover:bg-primary/20 cursor-pointer transition-colors"
-                onClick={() => generateOutlineFromTemplate(idea)}
-              >
-                {idea}
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        {appTemplates[selectedIndustry as keyof typeof appTemplates] && (
-          <div className="mt-6 border-t pt-2">
-            <h3 className="font-medium  mb-2">Pre-made Templates:</h3>
-            <ul className="space-y-2">
-              {appTemplates[selectedIndustry as keyof typeof appTemplates].map((template, index) => (
-                <li
-                  key={index}
-                  className="p-3 text-sm font-medium text-primary bg-primary/10 rounded-md hover:bg-primary/20 cursor-pointer transition-colors"
-                  onClick={() => generateOutlineFromTemplate(template)}
-                >
-                  {template}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-    );
-  };
+  // helper moved into modular components
 
   return (
-    <div className=" flex flex-col ">
-      <div className="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <div className="text-center">
-          <HeroTitle className=" sm:text-5xl md:text-6xl pb-4">
-            App Idea Engine
-          </HeroTitle>
-          <p className="mt-6 max-w-md mx-auto text-base  sm:text-lg md:text-xl md:max-w-3xl mb-12">
-            Transform your app ideas into reality with our AI-powered development assistant.
-          </p>
-
-          <div className="mt-12 max-w-3xl mx-auto">
-            <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label
-                    htmlFor="idea"
-                    className="block text-lg font-semibold text-primary mb-2 text-left"
-                  >
-                    What do you want to build?
-                  </label>
-                  <p className="text-sm text-gray-600 mb-4 text-left">
-                    Please be as detailed as possible about all the key aspects of your application.
-                    The more specific you are, the more useful the documents will be for outlining your app.
-                  </p>
-                  <div className="relative">
-                    <Textarea
-                      id="idea"
-                      value={idea}
-                      onChange={(e) => setIdea(e.target.value)}
-                      placeholder="Describe your app idea here..."
-                      className="min-h-[250px] text-base"
-                      disabled={isGenerating}
-                    />
-                    {isGenerating && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/80 rounded-md">
-                        <div className="flex items-center space-x-2 text-purple-600">
-                          <Loader2 className="w-6 h-6 animate-spin" />
-                          <span className="text-sm font-medium">Generating outline...</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  <Button
-                    type="submit"
-                    className=" w-full sm:w-1/2"
-                    disabled={isGenerating}
-                  >
-                    Submit Idea
-                  </Button>
-                  <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
-                    <Dialog open={inspirationOpen} onOpenChange={setInspirationOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="flex items-center gap-2"
-                          disabled={isGenerating}
-                        >
-                          <Lightbulb className="w-4 h-4" />
-                          Need inspiration?
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[550px] max-h-[80vh] overflow-y-auto">
-                        <DialogHeader>
-                          <DialogTitle>Find App Ideas</DialogTitle>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">Select Industry</label>
-                            <Select
-                              value={selectedIndustry}
-                              onValueChange={setSelectedIndustry}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Choose an industry" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {industries.map((industry) => (
-                                  <SelectItem key={industry} value={industry}>
-                                    {industry}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          <div className="space-y-2">
-                            <label className="text-sm font-medium">Select Business Function</label>
-                            <Select
-                              value={selectedFunction}
-                              onValueChange={setSelectedFunction}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Choose a function" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {businessFunctions.map((func) => (
-                                  <SelectItem key={func} value={func}>
-                                    {func}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                          {getTemplatesForSelection()}
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-
-                    <Dialog open={templatesOpen} onOpenChange={setTemplatesOpen}>
-                      <DialogTrigger asChild>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          className="flex items-center gap-2"
-                          disabled={isGenerating}
-                        >
-                          <FileText className="w-4 h-4" />
-                          Templates
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[600px]">
-                        <DialogHeader>
-                          <DialogTitle>App Templates</DialogTitle>
-                        </DialogHeader>
-                        <div className="grid gap-4 py-4">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            {["E-commerce Platform", "Project Management Tool", "Social Media App", "Fitness Tracking App"].map((template) => (
-                              <div
-                                key={template}
-                                className="p-4 border rounded-lg hover:bg-primary/10 cursor-pointer transition-colors"
-                                onClick={() => generateOutlineFromTemplate(template)}
-                              >
-                                <h3 className="font-semibold text-primary mb-2">{template}</h3>
-                                <p className="text-sm text-gray-600">Click to generate a detailed outline.</p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-      <AuthModal
-        isOpen={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-        onSuccess={handleAuthSuccess}
-        flatCard={true}
-        titleSingIn="Please Log In"
-        titleSignUp="Create an Account"
-        additionalText="Your app idea will be saved and you can continue working on it later."
+    <>
+      <HeroSection />
+      <IdeaFormSection
+        idea={idea}
+        setIdea={setIdea}
+        isGenerating={isGenerating}
+        onSubmit={handleSubmit}
+        inspirationOpen={inspirationOpen}
+        setInspirationOpen={setInspirationOpen}
+        templatesOpen={templatesOpen}
+        setTemplatesOpen={setTemplatesOpen}
+        selectedIndustry={selectedIndustry}
+        setSelectedIndustry={setSelectedIndustry}
+        selectedFunction={selectedFunction}
+        setSelectedFunction={setSelectedFunction}
+        isGeneratingIdeas={isGeneratingIdeas}
+        generatedIdeas={generatedIdeas}
+        onGenerateIdeas={generateAppIdeas}
+        onGenerateOutlineFromTemplate={generateOutlineFromTemplate}
+        appTemplates={appTemplates}
+        showAuthModal={showAuthModal}
+        onCloseAuthModal={() => setShowAuthModal(false)}
+        onAuthSuccess={handleAuthSuccess}
       />
-    </div>
+      <HowItWorksSection />
+      <SocialProofSection />
+      {/* ExplorerSection removed */}
+      {/* FinalCTASection removed */}
+      {/* SecuritySection removed */}
+      <DeliverablesSection />
+      <TemplatesSection onPickExample={(text) => {
+        setIdea(text);
+        const el = document.getElementById("get-started");
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }} />
+      <FinalCTASection />
+    </>
   );
 };
 

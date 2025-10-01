@@ -58,6 +58,15 @@
   @apply bg-gradient-to-r from-purple-600 to-violet-600;
 }
 
+/* Enterprise DNA brand gradient */
+.brand-gradient {
+  @apply bg-gradient-to-r from-[#6654f5] via-[#b84d8f] to-[#f2b347];
+}
+
+.brand-text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#6654f5] via-[#b84d8f] to-[#f2b347];
+}
+
 .soft-gradient {
   @apply bg-gradient-to-br from-purple-50 to-white;
 }

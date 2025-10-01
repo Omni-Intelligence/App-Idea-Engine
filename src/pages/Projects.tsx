@@ -145,7 +145,7 @@ const Projects = () => {
     <div className="container mx-auto py-8 px-4">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold ">My Projects</h1>
-        <Button onClick={() => navigate('/')} size="lg" variant="secondary">
+        <Button onClick={() => navigate('/#get-started')} size="lg" variant="secondary">
           <Plus className="w-4 h-4 mr-2" />
           New Project
         </Button>
@@ -184,7 +184,7 @@ const Projects = () => {
         <Card className="glass-card">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <p className="text-base text-muted-foreground mb-4">You haven't created any projects yet</p>
-            <Button onClick={() => navigate('/')} size="lg">
+            <Button onClick={() => navigate('/#get-started')} size="lg">
               Create Your First Project
             </Button>
           </CardContent>

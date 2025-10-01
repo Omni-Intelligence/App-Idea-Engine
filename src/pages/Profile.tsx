@@ -199,7 +199,7 @@ const Profile = () => {
                   <h4 className="font-medium">Subscription</h4>
                   <p className="text-sm text-muted-foreground">View our subscription plan details</p>
                 </div>
-                <Button variant="outline" onClick={() => navigate("/pricing")}>
+                <Button variant="outline" onClick={() => window.open("https://enterprisedna.co/pricing", "_blank")}>
                   View Plan
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>

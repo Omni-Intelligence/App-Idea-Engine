@@ -33,15 +33,13 @@ function App() {
             <div className="min-h-screen flex flex-col">
               <AutoSSO />
               <Navbar />
-              <main className="flex-1 bg-gray-50">
+              <main className="flex-1 bg-white">
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/update-password" element={<UpdatePassword />} />
-                  {/* <Route path="/pricing" element={<PricingPage />} />
-                  <Route path="/payment-success" element={<PaymentSuccess />} />
-                  <Route path="/access-details" element={<AccessDetails />} /> */}
+                  <Route path="/pricing" element={<PricingPage />} />
 
                   <Route
                     path="/*"
