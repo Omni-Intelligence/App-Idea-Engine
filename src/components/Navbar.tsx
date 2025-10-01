@@ -40,7 +40,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-primary/30 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+    <nav className="bg-white sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-4">
           <SiteLogo />
@@ -48,16 +48,27 @@ export const Navbar = () => {
             {!session && (
               <Button
                 variant="ghost"
-                onClick={() => navigate("/pricing")}
-                className="text-muted-foreground hover:text-foreground"
+                onClick={() => window.open("https://enterprisedna.co/pricing", "_blank")}
+                className="text-black hover:bg-gray-100"
               >
                 Pricing
               </Button>
             )}
-            {session && <Button onClick={() => navigate("/projects")}>My Projects</Button>}
+            {session && (
+              <Button
+                onClick={() => navigate("/projects")}
+                className="bg-gradient-to-r from-[#6654f5] via-[#ca5a8b] to-[#f2b347] text-white hover:opacity-90 transition-opacity"
+              >
+                My Projects
+              </Button>
+            )}
             {session ? (
               <div className="relative flex items-center gap-4">
-                <Button variant="outline" onClick={() => navigate("/profile")} className="gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => navigate("/profile")}
+                  className="gap-2 border-transparent text-white bg-gradient-to-r from-[#6654f5] via-[#ca5a8b] to-[#f2b347] hover:opacity-90 transition-opacity"
+                >
                   Profile
                 </Button>
                 <Button variant="white" size="icon" onClick={handleSignOut} className="ml-2">
@@ -65,7 +76,7 @@ export const Navbar = () => {
                 </Button>
               </div>
             ) : (
-              <Button asChild>
+              <Button asChild className="bg-gradient-to-r from-[#f2b347] via-[#b84d8f] to-[#6654f5] text-white hover:opacity-90 transition-opacity">
                 <Link to="/auth">Sign In</Link>
               </Button>
             )}
