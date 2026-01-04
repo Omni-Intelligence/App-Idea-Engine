@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Auth } from "./Auth";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -11,15 +11,20 @@ interface AuthModalProps {
   titleSignUp?: string;
 }
 
-export const AuthModal = ({ isOpen, onClose, onSuccess, flatCard, additionalText, titleSingIn, titleSignUp }: AuthModalProps) => {
+export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
+  useEffect(() => {
+    if (isOpen) {
+      window.location.href = "https://enterprisedna.co/login?edna=1";
+    }
+  }, [isOpen]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
-        <Auth onSuccess={(v) => {
-          onSuccess(v);
-          onClose();
-        }} flatCard={flatCard} additionalText={additionalText} titleSingIn={titleSingIn} titleSignUp={titleSignUp} />
+        <div className="flex items-center justify-center p-8">
+          <p className="text-muted-foreground">Redirecting to login...</p>
+        </div>
       </DialogContent>
     </Dialog>
   );
-}; 
+};
