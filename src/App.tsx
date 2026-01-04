@@ -12,6 +12,7 @@ import ProjectDetails from "@/pages/ProjectDetails";
 import Projects from "@/pages/Projects";
 import Questionnaire from "@/pages/Questionnaire";
 import QuestionnaireConfirmation from "@/pages/QuestionnaireConfirmation";
+import Register from "@/pages/Register";
 import { ResetPassword } from "@/pages/ResetPassword";
 import { UpdatePassword } from "@/pages/UpdatePassword";
 import AutoSSO from "./components/AutoSSO";
@@ -37,6 +38,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/auth" element={<Auth />} />
+                  <Route path="/register" element={<Register />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/update-password" element={<UpdatePassword />} />
                   <Route path="/pricing" element={<PricingPage />} />

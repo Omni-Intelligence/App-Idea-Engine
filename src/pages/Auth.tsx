@@ -1,14 +1,10 @@
-import { useNavigate } from "react-router-dom";
-import { Auth as AuthComponent } from "@/components/auth/Auth";
+import { useEffect } from "react";
 
 const Auth = () => {
-  const navigate = useNavigate();
-
-  return (
-    <div className="min-h-[calc(100vh-200px)] lg:min-h-[calc(100vh-160px)] flex items-center justify-center p-4">
-      <AuthComponent onSuccess={() => navigate("/projects")} />
-    </div>
-  );
+  useEffect(() => {
+    window.location.href = "https://enterprisedna.co/login?edna=1";
+  }, []);
+  return null;
 };
 
 export default Auth;
