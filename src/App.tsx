@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Footer } from "@/components/Footer";
@@ -25,7 +26,29 @@ import Profile from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
+// Declare the global hg function type
+declare global {
+  interface Window {
+    hg?: (command: string, config?: Record<string, unknown>) => void;
+  }
+}
+
 function App() {
+  // Initialize HelpGenie widget
+  useEffect(() => {
+    if (window.hg) {
+      window.hg('init', {
+        agentUrl: 'feedback-genie',
+        position: 'bottom-right',
+        primaryColor: '#6654f5',
+        buttonColor: '#f5f5f5',
+        baseUrl: 'https://helpgenie.ai',
+        agentName: 'Enterprise DNA',
+        customAvatarUrl: 'https://vdskjkjxyeehklwxnhrf.supabase.co/storage/v1/object/public/genie-images/i291wa4-1764809388319.png'
+      });
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
@@ -64,6 +87,12 @@ function App() {
               <Footer />
             </div>
             <Toaster />
+            {/* Custom Help Label for HelpGenie Widget */}
+            <div className="helpgenie-label-container">
+              <div className="helpgenie-label">
+                Need help?
+              </div>
+            </div>
           </Router>
         </SubscriptionProvider>
       </UserProvider>

@@ -26,6 +26,9 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 201.9 80.1 31.6;
     --radius: 1rem;
+    /* Enterprise DNA brand colors for HelpGenie widget */
+    --brand-blue: 250 89% 65%;
+    --brand-pink: 330 58% 52%;
   }
 }
 
@@ -154,4 +157,48 @@
 .fade-exit-active {
   opacity: 0;
   transition: opacity 300ms ease-in;
+}
+
+/* HelpGenie Widget Custom Label */
+.helpgenie-label-container {
+  position: fixed;
+  bottom: 60px;
+  right: 80px;
+  z-index: 9999;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.helpgenie-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  color: #0b0c18;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  animation: slideInLeft 0.3s ease-out;
+  background-image: linear-gradient(white, white), linear-gradient(135deg, hsl(var(--brand-blue)), hsl(var(--brand-pink)));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: 2px solid transparent;
+}
+
+.helpgenie-label::before {
+  display: none;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
