@@ -28,6 +28,55 @@
     content="Transform your app ideas into reality with our AI-powered development assistant." />
   <meta name="twitter:image" content="https://appideaengine.com/og-image.jpeg" />
   <meta name="twitter:site" content="@appideaengine" />
+
+  <!-- HelpGenie Widget -->
+  <script>
+    (function(w,d,s,o,f,js,fjs){
+      w[o]=w[o]||function(){(w[o].q=w[o].q||[]).push(arguments)};
+      w[o].q=w[o].q||[];
+      js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
+      js.id=o;js.src=f;js.async=1;fjs.parentNode.insertBefore(js,fjs);
+    }(window,document,'script','hg','https://helpgenie.ai/widget.js'));
+
+    hg('init', {
+      agentUrl: 'feedback-genie',
+      position: 'bottom-right',
+      primaryColor: '#6654f5',
+      buttonColor: '#f5f5f5',
+      baseUrl: 'https://helpgenie.ai',
+      agentName: 'Enterprise DNA',
+      customAvatarUrl: 'https://vdskjkjxyeehklwxnhrf.supabase.co/storage/v1/object/public/genie-images/i291wa4-1764809388319.png',
+      showLabel: true,
+      label: 'Need help?',
+      dotSize: 12
+    });
+  </script>
+  <!-- End HelpGenie Widget -->
+
+  <!-- HelpGenie Widget Custom Button Styles -->
+  <style>
+    /* Enlarge HelpGenie widget button */
+    [id*="hg"][class*="widget"] button,
+    [id*="hg"] button,
+    div[style*="position: fixed"] button {
+      width: 70px !important;
+      height: 70px !important;
+      background: white !important;
+      border: 3px solid transparent !important;
+      background-image: linear-gradient(white, white), linear-gradient(135deg, hsl(var(--brand-blue)), hsl(var(--brand-pink))) !important;
+      background-origin: border-box !important;
+      background-clip: padding-box, border-box !important;
+      border-radius: 50% !important;
+    }
+
+    /* Scale the icon inside */
+    [id*="hg"][class*="widget"] button svg,
+    [id*="hg"] button svg,
+    div[style*="position: fixed"] button svg {
+      transform: scale(1.5) !important;
+    }
+  </style>
+  <!-- End HelpGenie Widget Custom Button Styles -->
 </head>
 
 <body>
