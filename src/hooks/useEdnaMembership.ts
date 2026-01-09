@@ -60,6 +60,22 @@ export const useEdnaMembership = () => {
     }
   };
 
+  const removeSSOLoadingScreen = () => {
+    const loadingScreen = document.getElementById("sso-loading-screen");
+    if (loadingScreen) {
+      loadingScreen.remove();
+    }
+    const rootEl = document.getElementById("root");
+    if (rootEl) {
+      rootEl.style.display = "";
+    }
+    // Clean up SSO params from URL without triggering a reload
+    const url = new URL(window.location.href);
+    url.searchParams.delete("sso");
+    url.searchParams.delete("sig");
+    window.history.replaceState({}, "", url.toString());
+  };
+
   const processAutoSSO = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const ssoPayload = urlParams.get("sso");
@@ -79,14 +95,19 @@ export const useEdnaMembership = () => {
 
       if (error) {
         console.error("SSO login error:", error);
+        removeSSOLoadingScreen();
         return;
       }
 
       if (data?.success && data.redirectUrl) {
         window.location.href = data.redirectUrl;
+      } else {
+        // SSO didn't return a redirect URL, show the normal app
+        removeSSOLoadingScreen();
       }
     } catch (error) {
       console.error("Auto SSO processing error:", error);
+      removeSSOLoadingScreen();
     }
   };
 

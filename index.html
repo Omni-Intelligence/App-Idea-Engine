@@ -32,6 +32,52 @@
 
 <body>
   <div id="root"></div>
+
+  <!-- SSO Loading Screen - Shows immediately when SSO params detected -->
+  <script>
+    (function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var ssoPayload = urlParams.get('sso');
+      var signature = urlParams.get('sig');
+
+      if (ssoPayload && signature) {
+        // Create and inject loading screen immediately
+        var loadingDiv = document.createElement('div');
+        loadingDiv.id = 'sso-loading-screen';
+        loadingDiv.innerHTML = '\
+          <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background-color: white; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 99999;">\
+            <div style="animation: edna-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">\
+              <svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">\
+                <defs>\
+                  <linearGradient id="edna-gradient" x1="0%" y1="0%" x2="100%" y2="100%">\
+                    <stop offset="0%" style="stop-color:#6654f5"/>\
+                    <stop offset="50%" style="stop-color:#b84d8f"/>\
+                    <stop offset="100%" style="stop-color:#f2b347"/>\
+                  </linearGradient>\
+                </defs>\
+                <rect x="8" y="8" width="112" height="112" rx="20" fill="url(#edna-gradient)"/>\
+                <text x="64" y="78" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700" fill="white" text-anchor="middle">EDNA</text>\
+              </svg>\
+            </div>\
+          </div>\
+          <style>\
+            @keyframes edna-pulse {\
+              0%, 100% { opacity: 1; }\
+              50% { opacity: 0.5; }\
+            }\
+          </style>\
+        ';
+        document.body.insertBefore(loadingDiv, document.body.firstChild);
+
+        // Hide the root element while loading
+        var rootEl = document.getElementById('root');
+        if (rootEl) {
+          rootEl.style.display = 'none';
+        }
+      }
+    })();
+  </script>
+
   <script type="module" src="/src/main.tsx"></script>
 
   <!-- Enterprise DNA Ecosystem Widget -->
